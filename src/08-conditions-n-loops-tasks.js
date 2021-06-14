@@ -339,8 +339,17 @@ const toNaryString = (num, n) => num.toString(n);
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-const getCommonDirectoryPath = (/* pathes */) => {
-  throw new Error('Not implemented');
+const getCommonDirectoryPath = (pathes) => {
+  const result = pathes[0].split('/');
+  pathes.forEach((path) => {
+    const current = path.split('/');
+    current.forEach((el, ind) => {
+      if (el !== result[ind]) {
+        result.splice(ind);
+      }
+    });
+  });
+  return result.length > 0 ? `${result.join('/')}/` : '';
 };
 
 
@@ -362,8 +371,28 @@ const getCommonDirectoryPath = (/* pathes */) => {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const rowsA = m1.length;
+  const colsA = m1[0].length;
+  const rowsB = m2.length;
+  const colsB = m2[0].length;
+  const C = [];
+  if (colsA !== rowsB) {
+    return false;
+  }
+  for (let i = 0; i < rowsA; i += 1) {
+    C[i] = [];
+  }
+  for (let j = 0; j < colsB; j += 1) {
+    for (let i = 0; i < rowsA; i += 1) {
+      let t = 0;
+      for (let z = 0; z < rowsB; z += 1) {
+        t += m1[i][z] * m2[z][j];
+      }
+      C[i][j] = t;
+    }
+  }
+  return C;
 }
 
 
@@ -398,9 +427,48 @@ function getMatrixProduct(/* m1, m2 */) {
  *
  */
 function evaluateTicTacToePosition(/* position */) {
+  // const winCondition = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8]];
+  // winCondition.push([0, 4, 8], [2, 4, 6]);
+  // const condition = [];
+  // position.forEach((el) => {
+  //   condition.push(Array.from(el, (item) => item || 0));
+  // });
+
+  // const conditionX = condition.flat().map((el, index) => {
+  //   if (el === 'X') {
+  //     return index;
+  //   }
+  //   return false;
+  // });
+
+  // const condition0 = condition.flat().map((el, index) => {
+  //   if (el === '0') {
+  //     return index;
+  //   }
+  //   return false;
+  // });
+
+  // let result = 0;
+
+  // winCondition.forEach((el) => {
+  //   let winX = 0;
+  //   let win0 = 0;
+  //   el.forEach((item) => {
+  //     if (conditionX.indexOf(item) + 1) winX += 1;
+  //     if (condition0.indexOf(item) + 1) win0 += 1;
+  //   });
+  //   if (winX > 2) {
+  //     const res = result === 0 ? result = 'X' : result;
+  //     result = res;
+  //   } if (win0 > 2) {
+  //     const res = result === 0 ? result = '0' : result;
+  //     result = res;
+  //   }
+  // });
+  // return result === 0 ? undefined : result;
+
   throw new Error('Not implemented');
 }
-
 
 module.exports = {
   getFizzBuzz,

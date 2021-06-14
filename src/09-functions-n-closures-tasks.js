@@ -58,8 +58,22 @@ const getPowerFunction = (exponent) => (x) => x ** exponent;
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-const getPolynom = () => {
-  throw new Error('Not implemented');
+const getPolynom = (...arg) => {
+  if (arg.length === 0) {
+    return null;
+  }
+  return (x) => {
+    switch (arg.length) {
+      case 1:
+        return arg[0];
+      case 2:
+        return arg[0] * x + arg[1];
+      case 3:
+        return arg[0] * x ** 2 + arg[1] * x + arg[2];
+      default:
+        return null;
+    }
+  };
 };
 
 
@@ -77,9 +91,15 @@ const getPolynom = () => {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
-}
+const memoize = (func) => {
+  let result = null;
+  return () => {
+    if (result === null) {
+      result += func();
+    }
+    return result;
+  };
+};
 
 
 /**
@@ -97,9 +117,20 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
-}
+
+const retry = (func, attempts) => {
+  let i = attempts;
+  return () => {
+    while (i > 0) {
+      try {
+        return func();
+      } catch (e) {
+        i -= 1;
+      }
+    }
+    return null;
+  };
+};
 
 
 /**
@@ -163,9 +194,14 @@ const partialUsingArguments = (fn, ...args1) => (...args) => fn(...args1, ...arg
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
-}
+const getIdGeneratorFunction = (startFrom) => {
+  let counter = startFrom;
+  return () => {
+    const id = counter;
+    counter += 1;
+    return id;
+  };
+};
 
 
 module.exports = {
